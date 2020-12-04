@@ -73,7 +73,7 @@ module.exports = function (client) {
           //delete it from the map
           jointocreatemap.delete(`tempvoicechannel_${oldState.guild.id}_${oldState.channelID}`); 
          //log it 
-          console.log(" :: " + oldState.member.user.username + "#" + oldState.member.user.discriminator + " :: Room wurde gelöscht")
+          console.log(" :: " + oldState.member.user.username + "#" + oldState.member.user.discriminator + " :: Left the Room")
         //delete the room
           return vc.delete(); 
       }
@@ -93,6 +93,13 @@ module.exports = function (client) {
       }).then(async vc => {
         //move user to the new channel
         user.setChannel(vc);
+
+        vc.createInvite()
+        .then(invite => {
+            //envia missatge al canal de text
+             user.guild.channels.cache.get("784475469995048991").send(`https://discord.gg/${invite.code}`)
+        })
+        .catch(console.error);
         //set the new channel to the map
         jointocreatemap.set(`tempvoicechannel_${vc.guild.id}_${vc.id}`, vc.id);
         //change the permissions of the channel
@@ -106,6 +113,7 @@ module.exports = function (client) {
             allow: ['VIEW_CHANNEL'],
           },
         ]);
+        
       })
     }
 }
