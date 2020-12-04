@@ -34,7 +34,7 @@ module.exports = function (client) {
   }
   // JOINED V12
   if (!oldState.channelID && newState.channelID) {
-    if(newState.channelID !== config.JOINTOCREATECHANNEL) return;  //if its not the jointocreatechannel skip
+    if(newState.channelID !== config.joinToCreateChannel) return;  //if its not the jointocreatechannel skip
     jointocreatechannel(newState);   //load the function
   }
   // LEFT V12
@@ -61,7 +61,7 @@ module.exports = function (client) {
   
     if (oldState.channelID !== newState.channelID) {
       //if its the join to create channel
-      if(newState.channelID===config.JOINTOCREATECHANNEL) 
+      if(newState.channelID===config.joinToCreateChannel) 
       //make a new channel
       jointocreatechannel(oldState);  
       //BUT if its also a channel ín the map (temp voice channel)
@@ -89,7 +89,7 @@ module.exports = function (client) {
       //user.member.user.send("This can be used to message the member that a new room was created")
       await user.guild.channels.create(`${user.member.user.username}'s Room`, {
         type: 'voice',
-        parent:"784102108374368327", //or set it as a category id
+        parent:"784102108374368327", //aqui va el ID de la categoria on vols que es 
       }).then(async vc => {
         //move user to the new channel
         user.setChannel(vc);
